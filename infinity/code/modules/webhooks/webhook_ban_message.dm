@@ -29,7 +29,7 @@
 		"color" = COLOR_WEBHOOK_BAN,
 		"footer" = list(
 			"icon_url" = "https://cdn.discordapp.com/emojis/244791612268347392.png",	// :inf: emoji
-			"text" = "За обжалованием обращаться в #подача_заявок"
+			"text" = "За обжалованием обращаться в #онли-сс13-чат c упоминанием педаля"
 		),
 		"thumbnail" = list(
 			"url" = "https://cdn.discordapp.com/emojis/314350489020137474.png"			// :ban: emoji

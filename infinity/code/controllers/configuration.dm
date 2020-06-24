@@ -10,7 +10,7 @@
 	var/ntnet_radius_multiplyer = 1
 	var/ntnet_speed_limiter = 4
 
-	var/admin_midis_allowed = 0
+	var/admin_midis_allowed = 1
 	var/default_respawn_cooldown = 3 SECONDS
 
 	var/ambience_probability = 5

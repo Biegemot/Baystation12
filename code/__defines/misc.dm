@@ -261,7 +261,7 @@
 #define HABITABILITY_BAD  3
 
 #ifndef WINDOWS_HTTP_POST_DLL_LOCATION
-#define WINDOWS_HTTP_POST_DLL_LOCATION "lib/byhttp.dll"
+#define WINDOWS_HTTP_POST_DLL_LOCATION "C:/Users/User/Desktop/Aperture Station 13/tools/byhttp-master/target/i686-pc-windows-msvc/release/byhttp.dll"
 #endif
 
 #ifndef UNIX_HTTP_POST_DLL_LOCATION
