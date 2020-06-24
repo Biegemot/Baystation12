@@ -1,4 +1,4 @@
-/var/server_name = "Infinity RU"
+/var/server_name = "Aperture Station 13"
 
 /var/game_id = null
 /hook/global_init/proc/generate_gameid()
