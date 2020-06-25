@@ -11,9 +11,9 @@
 
 	layer = BLOB_SHIELD_LAYER
 
-	var/maxHealth = 30
+	var/maxHealth = 10
 	var/health
-	var/regen_rate = 2
+	var/regen_rate = 1
 	var/blob_color = "#8ba6e9"
 	var/tendril_damage_types = list(BRUTE)
 	var/tendril_damages = list(BRUTE = 30)
@@ -81,7 +81,8 @@
 	health -= damage
 	playsound(loc, 'sound/effects/splat.ogg', 50, 1)
 	if(health < 0)
-		core.strain.killed(src)
+		if(core)
+			core.strain.killed(src)
 		qdel(src)
 	else
 		update_icon()
@@ -227,7 +228,7 @@
 		L.apply_damage(tendril_damages[blob_damage], blob_damage, used_weapon = "blob tendril")
 
 /obj/effect/biomass/emp_act(var/severity)
-	core.strain.damaged(src, severity)
+	core.strain.empd(src, severity)
 
 /obj/effect/biomass/proc/pulse(var/forceLeft, var/list/dirs)
 	sleep(2)
@@ -324,7 +325,8 @@
 
 	take_damage(damage)
 
-	core.strain.damaged(src, user)
+	if(core)
+		core.strain.damaged(src, user)
 
 	return
 
@@ -335,7 +337,7 @@
 	name = "master nucleus"
 	desc = "A massive, fragile nucleus guarded by a shield of thick tendrils."
 	icon_state = "blob_core"
-	maxHealth = 450
+	maxHealth = 150
 
 	light_color = BLOB_COLOR_CORE
 	layer = BLOB_CORE_LAYER
@@ -464,7 +466,7 @@
 	desc = "A strange filtrating blob guarded by a shield of tendrils. It looks fragile."
 	icon_state = "blob_factory"
 
-	maxHealth = 40
+	maxHealth = 20
 	var/progress = 0
 
 	var/list/blob_mobs = list()
@@ -503,7 +505,7 @@
 	desc = "A mass of interwoven tendrils. They thrash around haphazardly at anything in reach."
 	icon_state = "blob_shield"
 
-	maxHealth = 60
+	maxHealth = 20
 
 /obj/effect/biomass/reinforced/reinforce(manual = 0)
 	if(!manual)
@@ -525,7 +527,7 @@
 	desc = "A pulsating mass of interwoven tendrils. These seem particularly robust, but not quite as active."
 	icon_state = "blob_idle_glow"
 
-	maxHealth = 90
+	maxHealth = 30
 
 /obj/effect/biomass/shield/reinforce()
 	return
