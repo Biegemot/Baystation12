@@ -2,7 +2,7 @@
 	var/hiding
 
 /mob/living
-	var/table_hiding
+
 
 /mob/living/proc/hide()
 	set name = "Hide"
