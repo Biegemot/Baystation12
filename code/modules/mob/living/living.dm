@@ -533,11 +533,6 @@ default behaviour is:
 	if(. && pulling)
 		handle_pulling_after_move(old_loc)
 
-	var/obj/structure/table/T = (locate() in old_loc)
-	if(!T && src.table_hiding)
-		src.table_hiding=0
-		src.set_hiding_layer(0)
-
 	if (s_active && !( s_active in contents ) && get_turf(s_active) != get_turf(src))	//check !( s_active in contents ) first so we hopefully don't have to call get_turf() so much.
 		s_active.close(src)
 
@@ -574,6 +569,9 @@ default behaviour is:
 		stop_pulling()
 		return
 
+	if(pulling.loc == loc || pulling.loc == old_loc)
+		return
+
 	if (!isliving(pulling))
 		if(pulling.loc != loc && pulling.loc != old_loc) //inf
 			step(pulling, get_dir(pulling.loc, old_loc))
@@ -596,24 +594,25 @@ default behaviour is:
 				handle_dir_after_pull() //inf
 			if(t)
 				M.start_pulling(t)
+	handle_dir_after_pull()
 
-//[INF]
 /mob/living/proc/handle_dir_after_pull()
 	if(pulling)
 		if(isobj(pulling))
 			var/obj/O = pulling
+//[INF]
 			// hacky check to know if you can pass through the closet
 			if(istype(O, /obj/structure/closet) && !O.density)
 				return set_dir(get_dir(src, pulling))
+//[/INF]
 			if(O.w_class >= ITEM_SIZE_HUGE || O.density)
 				return set_dir(get_dir(src, pulling))
 		if(isliving(pulling))
 			var/mob/living/L = pulling
-			// if pulling mob is bigger than us we morelike will pull it hard
-			// I made additional check in case if someone want hand walk
+			// If pulled mob was bigger than us, we morelike will turn
+			// I made additional check in case if someone want a hand walk
 			if(L.mob_size > mob_size || L.lying || a_intent != I_HELP)
 				return set_dir(get_dir(src, pulling))
-//[/INF]
 
 /mob/living/proc/handle_pull_damage(mob/living/puller)
 	var/area/A = get_area(src)
@@ -714,11 +713,6 @@ default behaviour is:
 	set name = "Rest"
 	set category = "IC"
 
-	if(table_hiding && resting)
-		var/obj/structure/table/T = (locate() in get_turf(src))
-		if(T)
-			to_chat(src, "<span class='warning'>You can't get up here!</span>")
-			return
 	resting = !resting
 	to_chat(src, "<span class='notice'>You are now [resting ? "resting" : "getting up"]</span>")
 
@@ -819,13 +813,7 @@ default behaviour is:
 	return 1
 
 /mob/living/reset_layer()
-	if(hiding || table_hiding)
-		layer = HIDING_MOB_LAYER
-	else
-		..()
-
-/mob/living/proc/set_hiding_layer(var/hide)
-	if(hide)
+	if(hiding)
 		layer = HIDING_MOB_LAYER
 	else
 		..()
@@ -917,3 +905,6 @@ default behaviour is:
 
 /mob/living/proc/eyecheck()
 	return FLASH_PROTECTION_NONE
+
+/mob/living/proc/InStasis()
+	return FALSE
